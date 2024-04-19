@@ -3,6 +3,7 @@ import morgan from "morgan";
 import { Signale } from "signale";
 import dotenv from "dotenv";
 import { connectToDatabase } from "./database/mongodb";
+import cors from 'cors'
 
 import { dataRouter } from "./medicalData/infraestructure/MedicalDataRouter";
 
@@ -15,6 +16,7 @@ const app = express();
 const signale = new Signale();
 
 app.use(express.json());
+app.use(cors());
 app.use(morgan("dev"));
 app.use("/medical/data", dataRouter);
 
