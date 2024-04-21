@@ -1,8 +1,12 @@
 import { MedicalData } from "../domain/MedicalData";
 import { MedicalDataRepository } from "../domain/MedicalDataRepository";
+import { IHealthService } from "./services/HealthService";
 
 export class AddMedicalDataUseCase{
-    constructor(readonly medicalDataRepository: MedicalDataRepository){}
+    constructor(
+        readonly medicalDataRepository: MedicalDataRepository,
+        readonly healthService: IHealthService    
+    ){}
 
     async run(
         temperature: number,
@@ -10,12 +14,14 @@ export class AddMedicalDataUseCase{
         aceleration: number
     ): Promise<MedicalData|null>{
         try{
+            const health = this.healthService.generateHealthStatus(bpm, temperature);
+
             const objectData = new MedicalData(
                 "",
                 temperature,
                 bpm,
                 aceleration,
-                "Saludable",
+                health,
                 new Date()
             );
 
